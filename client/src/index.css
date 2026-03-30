@@ -1,0 +1,69 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #f8fafc;
+  background: #020617;
+}
+
+body {
+  @apply m-0 min-h-screen bg-ink font-body text-slate-100 antialiased;
+  background-image: radial-gradient(circle at top, rgba(190, 242, 100, 0.14), transparent 26%),
+    linear-gradient(180deg, #020617 0%, #020617 100%);
+}
+
+#root {
+  @apply min-h-screen;
+}
+
+.glass-card {
+  @apply rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_24px_80px_rgba(15,23,42,0.35)];
+}
+
+.pill {
+  @apply inline-flex items-center rounded-full border border-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-300;
+}
+
+.panel-grid {
+  @apply grid gap-4 sm:gap-5 lg:gap-6;
+}
+
+.mapboxgl-popup-content {
+  border-radius: 1rem;
+  padding: 0.75rem 0.9rem;
+  font-family: "Manrope", sans-serif;
+}
+
+.mapboxgl-ctrl-group {
+  border-radius: 1rem !important;
+  overflow: hidden;
+}
+
+.driver-marker {
+  transition: transform 220ms linear;
+  transform-origin: center center;
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+  animation: shimmer 1.6s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "uber-clone-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev:client": "npm --workspace client run dev",
+    "dev:server": "npm --workspace server run dev",
+    "build": "npm --workspace client run build",
+    "seed": "npm --workspace server run seed",
+    "test": "npm run test:server && npm run test:client",
+    "test:server": "npm --workspace server run test",
+    "test:client": "npm --workspace client run test",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2"
+  }
+}
