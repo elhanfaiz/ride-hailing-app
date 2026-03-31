@@ -246,3 +246,4 @@ npm run test:client
 - The UI is intentionally modern and Uber-inspired, while still being original code.
 - Map rendering is represented through live coordinates and ready-to-wire map tokens. You can swap in Google Maps or Mapbox components using the provided env values.
 - Stripe is optional. If no Stripe secret is configured, the mock payment path still works.
+// elhan faiz 
