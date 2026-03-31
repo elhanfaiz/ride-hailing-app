@@ -1,3 +1,8 @@
+const PRODUCTION_API_URL = "https://ride-hailing-app-5at1.onrender.com/api";
+const PRODUCTION_FRONTEND_ORIGIN = "https://ride-hailing-app-client.vercel.app";
+const localhostOriginPattern = /^https?:\/\/(localhost|127\.0\.0\.1):\d+$/;
+const vercelPreviewOriginPattern = /^https:\/\/(?:[a-z0-9-]+\.)*vercel\.app$/i;
+
 const trimTrailingSlashes = (value) => value.replace(/\/+$/, "");
 
 export const resolveApiBaseUrl = ({ env = {}, origin } = {}) => {
@@ -7,11 +12,20 @@ export const resolveApiBaseUrl = ({ env = {}, origin } = {}) => {
     return trimTrailingSlashes(configuredApiUrl);
   }
 
-  if (origin) {
-    return `${trimTrailingSlashes(origin)}/api`;
+  const normalizedOrigin = origin ? trimTrailingSlashes(origin) : "";
+
+  if (
+    normalizedOrigin === PRODUCTION_FRONTEND_ORIGIN ||
+    vercelPreviewOriginPattern.test(normalizedOrigin)
+  ) {
+    return PRODUCTION_API_URL;
   }
 
-  return "/api";
+  if (localhostOriginPattern.test(normalizedOrigin)) {
+    return `${normalizedOrigin}/api`;
+  }
+
+  return PRODUCTION_API_URL;
 };
 
 export const resolveSocketUrl = ({ env = {}, apiBaseUrl, origin } = {}) => {
@@ -30,10 +44,18 @@ export const resolveSocketUrl = ({ env = {}, apiBaseUrl, origin } = {}) => {
     return normalizedApiBaseUrl.replace(/\/api$/, "");
   }
 
-  if (origin) {
-    return trimTrailingSlashes(origin);
+  const normalizedOrigin = origin ? trimTrailingSlashes(origin) : "";
+
+  if (
+    normalizedOrigin === PRODUCTION_FRONTEND_ORIGIN ||
+    vercelPreviewOriginPattern.test(normalizedOrigin)
+  ) {
+    return PRODUCTION_API_URL.replace(/\/api$/, "");
   }
 
-  return "";
-};
+  if (localhostOriginPattern.test(normalizedOrigin)) {
+    return normalizedOrigin;
+  }
 
+  return PRODUCTION_API_URL.replace(/\/api$/, "");
+};

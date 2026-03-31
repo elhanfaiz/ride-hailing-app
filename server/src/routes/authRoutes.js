@@ -12,24 +12,20 @@ import { validate } from "../middleware/validateMiddleware.js";
 
 const router = Router();
 
-router.post(
-  "/users/register",
-  [
-    body("fullName").notEmpty(),
-    body("email").isEmail(),
-    body("password").isLength({ min: 6 }),
-    body("phone").notEmpty(),
-  ],
-  validate,
-  registerUser
-);
+const userRegisterValidation = [
+  body("fullName").notEmpty(),
+  body("email").isEmail(),
+  body("password").isLength({ min: 6 }),
+  body("phone").notEmpty(),
+];
 
-router.post(
-  "/users/login",
-  [body("email").isEmail(), body("password").notEmpty()],
-  validate,
-  loginUser
-);
+const userLoginValidation = [
+  body("email").isEmail(),
+  body("password").notEmpty(),
+];
+
+router.post("/register", userRegisterValidation, validate, registerUser);
+router.post("/login", userLoginValidation, validate, loginUser);
 
 router.post(
   "/drivers/register",
@@ -57,4 +53,3 @@ router.post(
 router.get("/me", protect(["user", "driver", "admin"]), getCurrentAccount);
 
 export default router;
-

@@ -8,16 +8,25 @@ import { setSocketServer } from "./config/socket.js";
 
 dotenv.config();
 
+const PRODUCTION_CLIENT_ORIGIN = "https://ride-hailing-app-client.vercel.app";
 const localhostOriginPattern = /^https?:\/\/(localhost|127\.0\.0\.1):\d+$/;
+const vercelPreviewOriginPattern = /^https:\/\/(?:[a-z0-9-]+\.)*vercel\.app$/i;
+
+const normalizeOrigin = (value) => value?.trim().replace(/\/+$/, "");
 
 const isAllowedOrigin = (origin) => {
   if (!origin) return true;
 
-  if (process.env.CLIENT_URL && origin === process.env.CLIENT_URL) {
+  const normalizedOrigin = normalizeOrigin(origin);
+
+  if (
+    normalizedOrigin === PRODUCTION_CLIENT_ORIGIN ||
+    vercelPreviewOriginPattern.test(normalizedOrigin)
+  ) {
     return true;
   }
 
-  return localhostOriginPattern.test(origin);
+  return localhostOriginPattern.test(normalizedOrigin);
 };
 
 const createSocketServer = (server) =>

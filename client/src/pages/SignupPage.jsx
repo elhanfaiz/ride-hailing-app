@@ -56,7 +56,7 @@ export const SignupPage = () => {
         return;
       }
 
-      const { data } = await api.post("/auth/users/register", riderForm);
+      const { data } = await api.post("/auth/register", riderForm);
       persistAuth(data.data);
       navigate("/");
     } catch (requestError) {
@@ -227,4 +227,3 @@ export const SignupPage = () => {
     </div>
   );
 };
-

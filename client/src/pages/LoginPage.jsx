@@ -40,8 +40,7 @@ export const LoginPage = () => {
     setSubmitting(true);
 
     try {
-      const endpoint =
-        mode === "driver" ? "/auth/drivers/login" : "/auth/users/login";
+      const endpoint = mode === "driver" ? "/auth/drivers/login" : "/auth/login";
       const { data } = await api.post(endpoint, form);
       persistAuth(data.data);
 
